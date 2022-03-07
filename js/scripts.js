@@ -13,9 +13,6 @@ for (let i = 0; i < 9; i++) {
 let player1 = '0';
 let player2 = 'x';
 
-let player1choice = []
-let player2choice = []
-
 // individual cells 
 let c0 = document.querySelector(".c-0");
 let c1 = document.querySelector(".c-1");
@@ -29,7 +26,7 @@ let c8 = document.querySelector(".c-8");
 
 //  WINNING ROWS 
 // horizontal 
-const winrows = [[c0,c1,c2],[c3,c4,c5],[c6,c7,c7],
+const winrows = [[c0,c1,c2],[c3,c4,c5],[c6,c7,c8],
 // hor 
 [c0,c3,c6],[c1,c4,c7],[c2,c5,c8],
 // accross
@@ -37,33 +34,25 @@ const winrows = [[c0,c1,c2],[c3,c4,c5],[c6,c7,c7],
 ]
 
 const game = () => {
-    let whosturn = Math.floor(Math.random() * 2);
 
+    // choose turn 
+    let whosturn = Math.floor(Math.random() * 2);
     if (whosturn === 0){
         whosturn = player1;
     } else if (whosturn === 1){
         whosturn = player2
     }
 
+    // click cells 
     let cells = document.querySelectorAll('.cell');
-        let chosenCells = []
-
-
     cells.forEach(cell => {
-        cell.addEventListener('click', function(e) {
-            console.log(e, 'e1')
+        cell.addEventListener('click', function() {
             cell.innerHTML = whosturn;
             if (whosturn === '0'){
-                player1choice.push(cell)
-                chosenCells.push(cell)
                 whosturn = player2
-
                 cell.classList.add("active")     
             } else if (whosturn === 'x'){
-                player2choice.push(cell)
-                chosenCells.push(cell)
                 whosturn = player1
-
                 cell.classList.add("active")
             }
 
@@ -83,8 +72,14 @@ const game = () => {
 
 game()
 
+
+
 // todo:
 // Stop the game
 // Play again logic and btn
 // clean it up 
+// REMOVE EVEYTHING THAT IS NOT NEEDED (EXTRA CODE)
+// ONLY ONE PLAYER CAN WIN LOGIC
+// NO ONE WINS LOGIC
+// CSS styling
 
