@@ -33,44 +33,52 @@ const winrows = [[c0,c1,c2],[c3,c4,c5],[c6,c7,c8],
 [c2,c4,c6],[c0,c4,c8]
 ]
 
-const game = () => {
+// let isGame = true
 
-    // choose turn 
-    let whosturn = Math.floor(Math.random() * 2);
-    if (whosturn === 0){
-        whosturn = player1;
-    } else if (whosturn === 1){
-        whosturn = player2
-    }
+// const game = () => {
+//     // choose turn 
+//     let whosturn = Math.floor(Math.random() * 2);
+//     if (whosturn === 0){
+//         whosturn = player1;
+//     } else if (whosturn === 1){
+//         whosturn = player2
+//     }
 
-    // click cells 
-    let cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => {
-        cell.addEventListener('click', function() {
-            cell.innerHTML = whosturn;
-            if (whosturn === '0'){
-                whosturn = player2
-                cell.classList.add("active")     
-            } else if (whosturn === 'x'){
-                whosturn = player1
-                cell.classList.add("active")
-            }
+//     // click cells 
+//     let cells = document.querySelectorAll('.cell');
+//     cells.forEach(cell => {
+//         cell.addEventListener('click', function() {
+//             cell.innerHTML = whosturn;
+//             if (whosturn === '0'){
+//                 whosturn = player2
+//                 cell.classList.add("active")     
+//             } else if (whosturn === 'x'){
+//                 whosturn = player1
+//                 cell.classList.add("active")
+//             }
 
-            // winning feature WORKS
-            winrows.forEach(rows => {
-                if (rows[0].innerHTML === 'x' && rows[1].innerHTML === 'x' && rows[2].innerHTML === 'x'){
-                    console.log("X WINS", " winning row: ", rows)
-                    alert("X WINS")
-                } else if (rows[0].innerHTML === '0' && rows[1].innerHTML === '0' && rows[2].innerHTML === '0'){
-                    console.log("0 WINS", " winning row: ", rows)
-                    alert("0 WINS")
-                }
-            })
-        })
-    })
-}
+//             // winning feature WORKS
+//             winrows.forEach(rows => {
+//                 if (rows[0].innerHTML === 'x' && rows[1].innerHTML === 'x' && rows[2].innerHTML === 'x'){
+//                     console.log("X WINS", " winning row: ", rows)
+//                     // alert("X WINS")
+//                     // isGame = false
+//                 } else if (rows[0].innerHTML === '0' && rows[1].innerHTML === '0' && rows[2].innerHTML === '0'){
+//                     console.log("0 WINS", " winning row: ", rows)
+//                     // alert("0 WINS")
+//                     // isGame = false
+//                 }
+//             })
+//         })
+//     })
+// }
 
-game()
+
+// start game 
+
+
+
+// game()
 
 
 
@@ -83,3 +91,65 @@ game()
 // NO ONE WINS LOGIC
 // CSS styling
 
+
+
+let cells = document.querySelectorAll('.cell');
+let isGame = true
+let winner;
+
+const game = () => {
+    // choose turn 
+    let whosturn = Math.floor(Math.random() * 2);
+    if (whosturn === 0){
+        whosturn = player1;
+    } else if (whosturn === 1){
+        whosturn = player2
+    }
+
+    // click cells 
+    cells.forEach(cell => {
+        cell.addEventListener('click', function() {
+            cell.innerHTML = whosturn;
+            if (whosturn === '0'){
+                whosturn = player2
+                cell.classList.add("active")     
+            } else if (whosturn === 'x'){
+                whosturn = player1
+                cell.classList.add("active")
+            }
+
+            // winning feature WORKS
+
+                winrows.forEach(rows => {
+                    if (rows[0].innerHTML === 'x' && rows[1].innerHTML === 'x' && rows[2].innerHTML === 'x'){
+                        console.log("X WINS", " winning row: ", rows)
+                        // alert("X WINS")
+                        winner = player2
+                        isGame = false
+                    } else if (rows[0].innerHTML === '0' && rows[1].innerHTML === '0' && rows[2].innerHTML === '0'){
+                        console.log("0 WINS", " winning row: ", rows)
+                        // alert("0 WINS")
+                        winner = player1
+                        isGame = false 
+                    }
+                })
+        })
+    })
+
+    return winner
+}
+
+
+game()
+
+
+let start = setInterval(function(){
+    console.log("Is game true (going): ", isGame)
+    if (isGame === false){
+        console.log("The winner is " + winner)
+        cells.forEach(cell => {
+            cell.classList.add("active")
+        })
+        clearInterval(start)
+    }
+}, 500)
