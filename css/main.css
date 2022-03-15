@@ -13,6 +13,7 @@ body {
     border: red solid 1px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    display: none;
 }
 
 .cell {
@@ -36,3 +37,12 @@ body {
     z-index: 2;
     display: none;
 }
+
+#player_choice {
+    display: none;
+}
+
+#play-again-div {
+    display: none;
+}
+

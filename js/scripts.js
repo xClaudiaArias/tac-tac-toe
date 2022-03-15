@@ -1,9 +1,10 @@
 let container = document.getElementById("container");
 let modal = document.getElementById("modal");
 let player_choice_div = document.getElementById("player_choice");
+let playAgainDiv = document.getElementById("play-again-div")
+let heroimg = document.getElementById('heroimg');
+let startGameBtn = document.getElementById("start-game-btn");
 
-
-// create grid 
 for (let i = 0; i < 9; i++) {
     let cell = document.createElement("div")
     cell.classList.add("cell")
@@ -40,11 +41,22 @@ let cellsArray = Array.from(cells);
 
 let isGame = true
 let winner;
+
+// this is for switching 
 let player_choice;
 
-const chooseXorO = (e) => {
-    let player_choiceX = document.createElement("button");
-    let player_choiceO = document.createElement("button");
+// this is for who the player is 
+let player;
+
+let player_choiceX = document.createElement("button");
+let player_choiceO = document.createElement("button");
+
+player_choiceO.classList.add("choice");
+player_choiceX.classList.add("choice");
+
+
+
+const chooseXorO = () => {
 
     player_choiceO.textContent = "O";
     player_choiceX.textContent = 'X';
@@ -62,12 +74,11 @@ const chooseXorO = (e) => {
     })
 }
 
-chooseXorO()
 
 
 
 const game = () => {
-
+    container.style.display = "grid";
     // click cells 
     cells.forEach(cell => {
         cell.addEventListener('click', function() {
@@ -85,13 +96,13 @@ const game = () => {
 
             winrows.forEach(rows => {
                 if (rows[0].innerHTML === 'X' && rows[1].innerHTML === 'X' && rows[2].innerHTML === 'X'){
-                    // console.log("X WINS", " winning row: ", rows)
                     winner = player2
                     isGame = false
+                    playAgainDiv.style.display = "block";
                 } else if (rows[0].innerHTML === 'O' && rows[1].innerHTML === 'O' && rows[2].innerHTML === 'O'){
-                    // console.log("O WINS", " winning row: ", rows)
                     winner = player1
                     isGame = false 
+                    playAgainDiv.style.display = "block";
                 }
             })
         })
@@ -103,6 +114,7 @@ const game = () => {
         const isActive = (currentCell) => currentCell.classList.contains("active");
         if (cellsArray.every(isActive)) {
             winner = "No winner"
+            playAgainDiv.style.display = "block";
             clearInterval(noWinner)
         }
     }, 1000)
@@ -111,38 +123,83 @@ const game = () => {
 }
 
 
-game()
+// STARTS GAME AFTER PLAYER MADE CHOICE 
+
+function startGame() {
+    heroimg.style.display = "none";
+    startGameBtn.style.display = "none";
+
+    player_choice_div.style.display = "block";
+    chooseXorO()
+
+    let choice = document.querySelectorAll(".choice")
+
+    choice.forEach(c => {
+        c.addEventListener("click", function(e) {
+            container.style.display = "grid";
+            player = e.target.innerHTML;
+            console.log('You chose: ', e.target.innerHTML)
+            player_choice_div.innerHTML = `<p class="chosen">You chose: ${e.target.innerHTML}</p>`
+            game()
+        })
+    })
+}
+
+function announceWinner () {
+    let winnerModal = document.createElement('div');
+    let winnerModalH1 = document.createElement('H1');
+
+    console.log(player_choice, ' i am player_choice')
+    console.log(player1, player2, ' player1, player2')
+    console.log(player, ' playyaaaaaaa')
+
+    if (winner === "X" && player === "X") {
+        console.log("Congratulations. YOU'RE THE WINNER:  Winner iss: X")
+    } else if (winner === "O" && player === "O") {
+        console.log("Congratulations. YOU'RE THE WINNER: Winner is: O")
+    } else if (winner === "No winner") {
+        console.log("There is no winner");
+    } else {
+        console.log("YOU LOST. Winner is: ", winner)
+    }
+}
 
 
 let start = setInterval(function(){
-    // console.log("Is game true (going): ", isGame)
-    // console.log("The player is: ", player_choice)
     console.log("winner is: ", winner)
     if (isGame === false){
-        // console.log("The winner is " + winner)
         cells.forEach(cell => {
             cell.classList.add("active")
-            // modal.style.display = "block";
         })
-
-    // no winner logic 
-    // const isEveryRowEmpty = (row) => row.innerHTML !== "";
-    // if (winrows.every(isEveryRowEmpty)){
-    //     console.log("NO WINNER")
-    // }
-
+    announceWinner()
     clearInterval(start)
     }
 }, 500)
 
 
+// PLAY AGAIN 
+const playAgain = () => {
+    document.location.reload(container)
+}
+
+
 
 
 // todo:
-// declare winner modal
-// wait a little for modal... its too fast
-// style modal 
-// Play again logic and btn
+// MODALS:
+// instructions modal 
+// Start Game for choosing modal 
+// announce winner AND play again modal
+// nav page 
+// logo 
+// hero img 
 // clean it up 
-// REMOVE EVEYTHING THAT IS NOT NEEDED (EXTRA CODE)
-// CSS styling
+// REMOVE EVEYTHING THAT IS NOT NEEDED (EXTRA CODE, CONSOLE.LOGS, ETC...)
+// CSS STYLING:
+    // make tic tac grid
+    // navabar 
+    // elemnts inside 
+    // style modals 
+
+// note: BONUS POINTS FOR GETTING COMPUTER TO PLAY WITH YOU
+
