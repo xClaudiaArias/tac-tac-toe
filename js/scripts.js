@@ -1,9 +1,50 @@
 let container = document.getElementById("container");
-let modal = document.getElementById("modal");
 let player_choice_div = document.getElementById("player_choice");
 let playAgainDiv = document.getElementById("play-again-div")
 let heroimg = document.getElementById('heroimg');
 let startGameBtn = document.getElementById("start-game-btn");
+let instructionsBtn = document.getElementById("instructions-btn");
+let closeInstructionsBtn = document.getElementById("close-instructions");
+let playerChoiceContainer = document.getElementById("player_choice_container");
+let closePlayerChoiceBtn = document.getElementById("close-player-choice");
+let winnerP = document.getElementById("winner-p");
+let closePlayAgain = document.getElementById("close-play-again");
+// MODALS 
+let instructionsModal = document.getElementById("instructions-modal");
+
+instructionsBtn.addEventListener("click", function(){
+    instructionsModal.style.display = "flex";
+})
+
+// close btn instructions 
+closeInstructionsBtn.addEventListener("click", function(){
+    instructionsModal.style.display = "none";
+})
+
+// to exit modals outside 
+window.onclick = function(event) {
+    if (event.target == instructionsModal) {
+        instructionsModal.style.display = "none";
+    }
+
+    if (event.target == playerChoiceContainer) {
+        playerChoiceContainer.style.display = "none";
+    }
+}
+
+// CHOOSE X OR O start game 
+startGameBtn.addEventListener("click", function(){
+    playerChoiceContainer.style.display = "flex";
+})
+
+closePlayerChoiceBtn.addEventListener("click", function(){
+    playerChoiceContainer.style.display = "none";
+})
+
+closePlayAgain.addEventListener("click", function(){
+    playAgainDiv.style.display = "none";
+})
+
 
 for (let i = 0; i < 9; i++) {
     let cell = document.createElement("div")
@@ -58,11 +99,11 @@ player_choiceX.classList.add("choice");
 
 const chooseXorO = () => {
 
-    player_choiceO.textContent = "O";
     player_choiceX.textContent = 'X';
+    player_choiceO.textContent = "O";
 
-    player_choice_div.appendChild(player_choiceO)
     player_choice_div.appendChild(player_choiceX)
+    player_choice_div.appendChild(player_choiceO)
 
 
     player_choiceO.addEventListener("click", function(e) {
@@ -99,10 +140,22 @@ const game = () => {
                     winner = player2
                     isGame = false
                     playAgainDiv.style.display = "block";
+                    rows[0].style.backgroundColor = "rgb(255, 146, 182)";
+                    rows[1].style.backgroundColor = "rgb(255, 146, 182)"; 
+                    rows[2].style.backgroundColor = "rgb(255, 146, 182)"; 
+                    rows[0].style.color = "white";
+                    rows[1].style.color = "white"; 
+                    rows[2].style.color = "white"; 
                 } else if (rows[0].innerHTML === 'O' && rows[1].innerHTML === 'O' && rows[2].innerHTML === 'O'){
                     winner = player1
                     isGame = false 
                     playAgainDiv.style.display = "block";
+                    rows[0].style.backgroundColor = "rgb(255, 146, 182)";
+                    rows[1].style.backgroundColor = "rgb(255, 146, 182)"; 
+                    rows[2].style.backgroundColor = "rgb(255, 146, 182)"; 
+                    rows[0].style.color = "white";
+                    rows[1].style.color = "white"; 
+                    rows[2].style.color = "white"; 
                 }
             })
         })
@@ -114,7 +167,8 @@ const game = () => {
         const isActive = (currentCell) => currentCell.classList.contains("active");
         if (cellsArray.every(isActive)) {
             winner = "No winner"
-            playAgainDiv.style.display = "block";
+            playAgainDiv.style.display = "flex";
+            isGame = false
             clearInterval(noWinner)
         }
     }, 1000)
@@ -138,40 +192,33 @@ function startGame() {
         c.addEventListener("click", function(e) {
             container.style.display = "grid";
             player = e.target.innerHTML;
-            console.log('You chose: ', e.target.innerHTML)
             player_choice_div.innerHTML = `<p class="chosen">You chose: ${e.target.innerHTML}</p>`
             game()
         })
     })
 }
 
-function announceWinner () {
-    let winnerModal = document.createElement('div');
-    let winnerModalH1 = document.createElement('H1');
-
-    console.log(player_choice, ' i am player_choice')
-    console.log(player1, player2, ' player1, player2')
-    console.log(player, ' playyaaaaaaa')
-
+const announceWinner = () => {
     if (winner === "X" && player === "X") {
-        console.log("Congratulations. YOU'RE THE WINNER:  Winner iss: X")
+        return "Congratulations. YOU'RE THE WINNER!"
     } else if (winner === "O" && player === "O") {
-        console.log("Congratulations. YOU'RE THE WINNER: Winner is: O")
+        return "Congratulations. YOU'RE THE WINNE!"
     } else if (winner === "No winner") {
-        console.log("There is no winner");
+        return "There is no winner"
     } else {
-        console.log("YOU LOST. Winner is: ", winner)
+        return "YOU LOST. Winner is: " +  winner
     }
 }
 
 
 let start = setInterval(function(){
-    console.log("winner is: ", winner)
+
     if (isGame === false){
         cells.forEach(cell => {
             cell.classList.add("active")
         })
-    announceWinner()
+    
+    winnerP.innerHTML = announceWinner();
     clearInterval(start)
     }
 }, 500)
