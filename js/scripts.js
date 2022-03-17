@@ -228,25 +228,3 @@ let start = setInterval(function(){
 const playAgain = () => {
     document.location.reload(container)
 }
-
-
-
-
-// todo:
-// MODALS:
-// instructions modal 
-// Start Game for choosing modal 
-// announce winner AND play again modal
-// nav page 
-// logo 
-// hero img 
-// clean it up 
-// REMOVE EVEYTHING THAT IS NOT NEEDED (EXTRA CODE, CONSOLE.LOGS, ETC...)
-// CSS STYLING:
-    // make tic tac grid
-    // navabar 
-    // elemnts inside 
-    // style modals 
-
-// note: BONUS POINTS FOR GETTING COMPUTER TO PLAY WITH YOU
-
